@@ -860,7 +860,9 @@ section{
    border-radius: .5rem;
 }
 
-
+.center {
+   text-align: center;
+}
 
 
 
@@ -920,7 +922,31 @@ section{
    color:var(--purple);
 }
 
+.edit-btn {
+   background: none;
+   border: none;
+   color: #8D44AD;
+   cursor: pointer;
+}
 
+.password-fields {
+   display: none;
+}
+
+.box[type="password"] {
+   border-color: #8D44AD;
+}
+.password-toggle {
+   position: relative;
+}
+
+.password-toggle .toggle-password {
+   position: absolute;
+   top: 50%;
+   right: 10px;
+   transform: translateY(-50%);
+   cursor: pointer;
+}
 
 
 /* media queries  */

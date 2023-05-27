@@ -1,3 +1,4 @@
+
 let userBox = document.querySelector('.header .header-2 .user-box');
 
 document.querySelector('#user-btn').onclick = () =>{
@@ -20,5 +21,32 @@ window.onscroll = () =>{
       document.querySelector('.header .header-2').classList.add('active');
    }else{
       document.querySelector('.header .header-2').classList.remove('active');
+   }
+}
+
+function enableEdit(fieldId) {
+   var fieldText = document.getElementById(fieldId + '-text');
+   var fieldInput = document.getElementById(fieldId + '-input');
+   var editBtn = document.getElementById(fieldId + '-edit');
+
+   fieldText.style.display = 'none';
+   fieldInput.style.display = 'inline-block';
+   editBtn.style.display = 'none';
+}
+
+function showPasswordFields() {
+   document.getElementById('password-fields').style.display = 'block';
+}
+
+function togglePasswordVisibility(fieldId) {
+   var passwordField = document.getElementById(fieldId);
+   var toggleBtn = passwordField.nextElementSibling;
+
+   if (passwordField.type === "password") {
+      passwordField.type = "text";
+      toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+   } else {
+      passwordField.type = "password";
+      toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
    }
 }

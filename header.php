@@ -49,11 +49,22 @@ if(isset($message)){
          </div>
 
          <div class="user-box">
-            <p>username : <span><?php echo $_SESSION['user_name']; ?></span></p>
-            <p>email : <span><?php echo $_SESSION['user_email']; ?></span></p>
-            <a href="logout.php" class="delete-btn">logout</a>
-         </div>
-      </div>
+    <?php if(isset($_SESSION['user_name']) && isset($_SESSION['user_email'])): ?>
+        <p>username : <span><?php echo $_SESSION['user_name']; ?></span></p>
+        <p>email : <span><?php echo $_SESSION['user_email']; ?></span></p>
+        <a href="change_profile.php" class="btn">Change</a>
+        <a href="logout.php" class="delete-btn">logout</a>
+        <?php if(isset($_SESSION['user_id'])): ?>
+   <div class="user-box">
+      <span><?php echo $_SESSION['user_name']; ?></span>
+      
+      <a href="logout.php" class="btn">Logout</a>
+   </div>
+<?php endif; ?>
+    <?php else: ?>
+        <a href="login.php" class="delete-btn">login</a>
+    <?php endif; ?>
+</div>
    </div>
 
 </header>
