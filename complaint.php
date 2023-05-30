@@ -22,18 +22,24 @@ if(isset($_POST['send'])){
    if(mysqli_num_rows($select_complaint) > 0){
       $message[] = 'Complaint already submitted!';
    } else{
-      // File upload handling
-      $targetDir = "uploaded_img/";
-      $fileName = basename($_FILES["photo"]["name"]);
-      $targetFilePath = $targetDir . $fileName;
-      $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-
-      if(move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFilePath)){
-         mysqli_query($conn, "INSERT INTO `complaints` (user_id, name, email, number, order_id, message, photo) VALUES ('$user_id', '$name', '$email', '$number', '$order_id', '$msg', '$targetFilePath')") or die('Query failed');
-         $message[] = 'Complaint submitted successfully!';
-      } else{
-         $message[] = 'Failed to upload photo!';
+      $targetFilePath = null; // Initialize the target file path as NULL
+      
+      if(!empty($_FILES["photo"]["name"])) {
+         // File upload handling
+         $targetDir = "uploaded_img/";
+         $fileName = basename($_FILES["photo"]["name"]);
+         $targetFilePath = $targetDir . $fileName;
+         $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+   
+         if(move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFilePath)){
+            $message[] = 'Photo uploaded successfully!';
+         } else{
+            $message[] = 'Failed to upload photo!';
+         }
       }
+      
+      mysqli_query($conn, "INSERT INTO `complaints` (user_id, name, email, number, order_id, message, photo) VALUES ('$user_id', '$name', '$email', '$number', '$order_id', '$msg', '$targetFilePath')") or die('Query failed');
+      $message[] = 'Complaint submitted successfully!';
    }
 }
 
@@ -45,7 +51,7 @@ if(isset($_POST['send'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Contact</title>
+   <title>Complaint</title>
 
    <!-- font awesome cdn link -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -66,10 +72,10 @@ if(isset($_POST['send'])){
 <section class="contact">
    <form action="" method="post" enctype="multipart/form-data">
       <h3>File a Complaint!</h3>
-      <input type="text" name="name" required placeholder="Enter your name" class="box">
-      <input type="email" name="email" required placeholder="Enter your email" class="box">
-      <input type="number" name="number" required placeholder="Enter your number" class="box">
-      <input type="text" name="order_id" required placeholder="Enter your order ID" class="box">
+      <input type="text" name="order_id" required placeholder="Enter your order ID" class="box" value="<?php echo isset($_GET['order_id']) ? $_GET['order_id'] : ''; ?>">
+      <input type="text" name="name" required placeholder="Enter your name" class="box" value="<?php echo isset($_GET['name']) ? $_GET['name'] : ''; ?>">
+      <input type="email" name="email" required placeholder="Enter your email" class="box" value="<?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?>">
+      <input type="number" name="number" required placeholder="Enter your number" class="box" value="<?php echo isset($_GET['number']) ? $_GET['number'] : ''; ?>">
       <textarea name="message" class="box" placeholder="Enter your complaint" id="" cols="30" rows="10"></textarea>
       <input type="file" name="photo" accept="image/*" class="box">
       <input type="submit" value="Submit Complaint" name="send" class="btn">
