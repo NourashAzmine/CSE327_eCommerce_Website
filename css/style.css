@@ -1005,3 +1005,28 @@ section{
    }
 
 }
+
+.file-complaint-container {
+   text-align: center;
+}
+.file-complaint {
+   display: inline-block;
+   padding-left: 10px;
+   font-size: 18px;
+   font-weight: bold;
+   text-decoration: none;
+   color: #f44336;
+}
+
+.file-complaint:hover {
+   text-decoration: underline;
+}
+
+.file-complaint:hover::after {
+   display: inline-block;
+   padding-left: 10px;
+   font-size: 18px;
+   font-weight: bold;
+   text-decoration: none;
+   color: #f44336;
+}

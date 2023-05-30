@@ -156,7 +156,7 @@ if(isset($_SESSION['user_id'])){
             <a href="#" class="fab fa-instagram"></a>
             <a href="#" class="fab fa-linkedin"></a>
          </div>
-         <h3>john deo</h3>
+         <h3>Nourash Azmine</h3>
       </div>
 
       <div class="box">
@@ -167,7 +167,7 @@ if(isset($_SESSION['user_id'])){
             <a href="#" class="fab fa-instagram"></a>
             <a href="#" class="fab fa-linkedin"></a>
          </div>
-         <h3>john deo</h3>
+         <h3>Dipta Neogi</h3>
       </div>
 
       <div class="box">
@@ -178,7 +178,7 @@ if(isset($_SESSION['user_id'])){
             <a href="#" class="fab fa-instagram"></a>
             <a href="#" class="fab fa-linkedin"></a>
          </div>
-         <h3>john deo</h3>
+         <h3>Abdul Ahad</h3>
       </div>
 
       <div class="box">
@@ -189,7 +189,7 @@ if(isset($_SESSION['user_id'])){
             <a href="#" class="fab fa-instagram"></a>
             <a href="#" class="fab fa-linkedin"></a>
          </div>
-         <h3>john deo</h3>
+         <h3>SA Shourav</h3>
       </div>
 
    </div>

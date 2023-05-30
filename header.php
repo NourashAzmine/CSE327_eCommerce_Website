@@ -30,11 +30,12 @@ if(isset($message)){
          <a href="home.php" class="logo">MEDly.</a>
 
          <nav class="navbar">
-            <a href="home.php">home</a>
-            <a href="about.php">about</a>
-            <a href="shop.php">shop</a>
-            <a href="contact.php">contact</a>
-            <a href="orders.php">orders</a>
+            <a href="home.php">Home</a>
+            <a href="about.php">About</a>
+            <a href="shop.php">Shop</a>
+            <a href="contact.php">Contact</a>
+            <a href="complaint.php">Complain</a>
+            <a href="orders.php">Orders</a>
          </nav>
 
          <div class="icons">
@@ -50,8 +51,8 @@ if(isset($message)){
 
          <div class="user-box">
     <?php if(isset($_SESSION['user_name']) && isset($_SESSION['user_email'])): ?>
-        <p>username : <span><?php echo $_SESSION['user_name']; ?></span></p>
-        <p>email : <span><?php echo $_SESSION['user_email']; ?></span></p>
+        <p>Username : <span><?php echo $_SESSION['user_name']; ?></span></p>
+        <p>Email : <span><?php echo $_SESSION['user_email']; ?></span></p>
         <a href="change_profile.php" class="btn">Change</a>
         <a href="logout.php" class="delete-btn">logout</a>
         <?php if(isset($_SESSION['user_id'])): ?>

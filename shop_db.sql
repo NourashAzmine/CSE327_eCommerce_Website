@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2023 at 02:03 PM
+-- Generation Time: May 30, 2023 at 11:37 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -41,9 +41,34 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id`, `user_id`, `name`, `price`, `quantity`, `image`) VALUES
-(62, 0, 'u', 66, 1, '2.jpg'),
 (63, 2, 'aa', 32, 1, '1.jpg'),
-(64, 2, 'u', 66, 1, '2.jpg');
+(64, 2, 'u', 66, 1, '2.jpg'),
+(84, 9, 'alatrol tablet 10mg', 30, 1, 'alatrol-tablet-10mg-10-tablets-30.1tk.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `complaints`
+--
+
+CREATE TABLE `complaints` (
+  `complaint_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `number` varchar(20) NOT NULL,
+  `message` text NOT NULL,
+  `order_id` varchar(255) NOT NULL,
+  `photo` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `complaints`
+--
+
+INSERT INTO `complaints` (`complaint_id`, `user_id`, `name`, `email`, `number`, `message`, `order_id`, `photo`) VALUES
+(1, 9, 'asdf', 'asdfsdkfdskajf@sdfa', '34234', 'asdfklasdfkjkljdakf', '3', 'uploaded_img/Screenshot 2023-05-28 015406.jpg'),
+(2, 9, 'nurash', 'nourash@gmail.com', '01521536463', 'ssadf', '19', '');
 
 -- --------------------------------------------------------
 
@@ -84,21 +109,19 @@ CREATE TABLE `orders` (
   `total_products` varchar(1000) NOT NULL,
   `total_price` int(100) NOT NULL,
   `placed_on` varchar(50) NOT NULL,
-  `payment_status` varchar(20) NOT NULL DEFAULT 'pending'
+  `delivery_status` varchar(20) NOT NULL DEFAULT 'pending',
+  `estimated_delivery_date` date DEFAULT NULL,
+  `estimated_delivery_time` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `name`, `number`, `email`, `method`, `address`, `total_products`, `total_price`, `placed_on`, `payment_status`) VALUES
-(10, 2, 'nourash', '0123', 'nourashazmine@gmail.com', 'cash on delivery', 'flat no. 4, asdf, a, sdf - 334', ', aa (1) ', 32, '07-May-2023', 'completed'),
-(11, 2, 'nourash', '123', 'nourashazmine@gmail.com', 'cash on delivery', 'flat no. 2, sdaf, we, dsf - 33', ', aa (1) ', 32, '07-May-2023', 'pending'),
-(12, 2, 'dipta', '12', 'nourashazmine@gmail.com', 'credit card', 'flat no. 1, asdf, a, sdf - 3', ', aa (1) ', 32, '07-May-2023', 'pending'),
-(13, 2, 'nourash', '012', 'nourashazmine@gmail.com', 'online', 'flat no. sdfasdf, asdf, csd,  - 223', ', aa (1) , u (2) ', 164, '13-May-2023', 'pending'),
-(14, 9, 'nurash', '01521536463', 'nourash@gmail.com', 'online', 'flat no. asd, , adsfsdf,  - 211', ', ace-xr tablet 665mg (1) ', 20, '27-May-2023', 'pending'),
-(15, 9, 'nurash', '01521536463', 'nourash@gmail.com', 'online', 'flat no. asd, jjjkh, adsfsdf,  - 3434', ', gastrocon-r suspension 200ml (1) ', 285, '27-May-2023', 'pending'),
-(16, 9, 'nurash', '01521536463', 'nourash@gmail.com', 'online', 'flat no. asd, jjjkh, adsfsdf,  - 7654', ', ace-xr tablet 665mg (1) , alatrol tablet 10mg (1) ', 50, '27-May-2023', 'pending');
+INSERT INTO `orders` (`id`, `user_id`, `name`, `number`, `email`, `method`, `address`, `total_products`, `total_price`, `placed_on`, `delivery_status`, `estimated_delivery_date`, `estimated_delivery_time`) VALUES
+(19, 9, 'nurash', '01521536463', 'nourash@gmail.com', 'cash on delivery', 'flat no. Bashundhara R/A, Road - 5, House no - 3, Flat no - 3B, Dhaka,  - 1462', ', ace tablet 500mg (1) , flutide inhaler 250mcg 10mcgpuff (1) ', 907, '28-May-2023', 'delivered', '2023-05-31', '05:14:00'),
+(21, 10, 'dipta', '01821536463', 'dipta@gmail.com', 'cash on delivery', 'flat no. Narayangong, Chashara , Dhaka - 2342', ', gastrocon-da-suspension 200ml (1) ', 287, '28-May-2023', 'delivered', '0000-00-00', '00:00:00'),
+(22, 11, 'Ahad', '01826153663', 'ahad@gmail.com', 'cash on delivery', 'flat no. Bashundhara R/A, Road - 5, House no - 3, Flat no - 3B, Dhaka - 7657', ', gastrocon-da-suspension 200ml (1) , ace tablet 500mg (1) ', 299, '28-May-2023', 'delivered', '2023-05-30', '07:00:00');
 
 -- --------------------------------------------------------
 
@@ -156,8 +179,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`) VALUES
 (5, 'admin', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'admin'),
-(8, 'nourash', 'nourashazmine@gmail.com', '500953d3e0eff7c893c7e1b8fa1e54ba', 'user'),
-(9, 'nurash', 'nourash@gmail.com', '500953d3e0eff7c893c7e1b8fa1e54ba', 'user');
+(8, 'nourash', 'nourashazmine@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'user'),
+(9, 'Nurash', 'nourash@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'user'),
+(10, 'dipta', 'dipta@gmail.com', '7edd8b2d1ef9731c8a5540b798d2eaa4', 'user'),
+(11, 'Ahad', 'ahad@gmail.com', '7533b23c04ca07b8f9563f6f88e3e22c', 'user');
 
 --
 -- Indexes for dumped tables
@@ -168,6 +193,13 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`) VALUES
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `complaints`
+--
+ALTER TABLE `complaints`
+  ADD PRIMARY KEY (`complaint_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `message`
@@ -201,7 +233,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+
+--
+-- AUTO_INCREMENT for table `complaints`
+--
+ALTER TABLE `complaints`
+  MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `message`
@@ -213,7 +251,7 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -225,7 +263,17 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `complaints`
+--
+ALTER TABLE `complaints`
+  ADD CONSTRAINT `complaints_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
