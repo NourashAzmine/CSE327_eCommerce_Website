@@ -43,7 +43,7 @@ if(isset($_GET['delete'])){
    
 <?php include 'admin_header.php'; ?>
 
-<section class="complaints">
+<section class="messages">
 
    <h1 class="title">Complaints</h1>
 
@@ -65,8 +65,10 @@ if(isset($_GET['delete'])){
       <?php if(!empty($fetch_complaint['photo'])): ?>
          <img src="<?php echo $fetch_complaint['photo']; ?>" alt="Complaint Photo" class="complaint-photo">
       <?php endif; ?>
-      <a href="admin_complaints.php?delete=<?php echo $fetch_complaint['complaint_id']; ?>" onclick="return confirm('Delete this complaint?');" class="delete-btn">Delete Complaint</a>
-   </div>
+      <div class="center-btn">
+         <a href="admin_complaints.php?delete=<?php echo $fetch_complaint['complaint_id']; ?>" onclick="return confirm('Delete this complaint?');" class="delete-btn">Delete Complaint</a>
+      </div>
+      </div>
    <?php
       }
    } else {
