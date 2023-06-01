@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 30, 2023 at 11:37 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Generation Time: Jun 01, 2023 at 05:24 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,18 +32,10 @@ CREATE TABLE `cart` (
   `user_id` int(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `price` int(100) NOT NULL,
+  `discount_price` int(200) NOT NULL,
   `quantity` int(100) NOT NULL,
   `image` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`id`, `user_id`, `name`, `price`, `quantity`, `image`) VALUES
-(63, 2, 'aa', 32, 1, '1.jpg'),
-(64, 2, 'u', 66, 1, '2.jpg'),
-(84, 9, 'alatrol tablet 10mg', 30, 1, 'alatrol-tablet-10mg-10-tablets-30.1tk.jpg');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -54,12 +46,12 @@ INSERT INTO `cart` (`id`, `user_id`, `name`, `price`, `quantity`, `image`) VALUE
 CREATE TABLE `complaints` (
   `complaint_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `number` varchar(20) NOT NULL,
-  `message` text NOT NULL,
-  `order_id` varchar(255) NOT NULL,
-  `photo` varchar(255) DEFAULT NULL
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `number` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -83,7 +75,7 @@ CREATE TABLE `message` (
   `email` varchar(100) NOT NULL,
   `number` varchar(12) NOT NULL,
   `message` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `message`
@@ -108,20 +100,22 @@ CREATE TABLE `orders` (
   `address` varchar(500) NOT NULL,
   `total_products` varchar(1000) NOT NULL,
   `total_price` int(100) NOT NULL,
+  `discount_total_price` int(200) NOT NULL,
   `placed_on` varchar(50) NOT NULL,
   `delivery_status` varchar(20) NOT NULL DEFAULT 'pending',
   `estimated_delivery_date` date DEFAULT NULL,
   `estimated_delivery_time` time DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `name`, `number`, `email`, `method`, `address`, `total_products`, `total_price`, `placed_on`, `delivery_status`, `estimated_delivery_date`, `estimated_delivery_time`) VALUES
-(19, 9, 'nurash', '01521536463', 'nourash@gmail.com', 'cash on delivery', 'flat no. Bashundhara R/A, Road - 5, House no - 3, Flat no - 3B, Dhaka,  - 1462', ', ace tablet 500mg (1) , flutide inhaler 250mcg 10mcgpuff (1) ', 907, '28-May-2023', 'delivered', '2023-05-31', '05:14:00'),
-(21, 10, 'dipta', '01821536463', 'dipta@gmail.com', 'cash on delivery', 'flat no. Narayangong, Chashara , Dhaka - 2342', ', gastrocon-da-suspension 200ml (1) ', 287, '28-May-2023', 'delivered', '0000-00-00', '00:00:00'),
-(22, 11, 'Ahad', '01826153663', 'ahad@gmail.com', 'cash on delivery', 'flat no. Bashundhara R/A, Road - 5, House no - 3, Flat no - 3B, Dhaka - 7657', ', gastrocon-da-suspension 200ml (1) , ace tablet 500mg (1) ', 299, '28-May-2023', 'delivered', '2023-05-30', '07:00:00');
+INSERT INTO `orders` (`id`, `user_id`, `name`, `number`, `email`, `method`, `address`, `total_products`, `total_price`, `discount_total_price`, `placed_on`, `delivery_status`, `estimated_delivery_date`, `estimated_delivery_time`) VALUES
+(25, 10, 'dipta', '013427724092', 'dipta@gmail.com', 'cash on delivery', 'flat no. 67, 78 uit, dhaka - 4563', ', ace tablet 500mg (3) ', 36, 30, '01-Jun-2023', 'pending', NULL, NULL),
+(26, 10, 'dipta', '01239589022', 'dipta@gmail.com', 'online', 'flat no. 0987654, 67 aertyu, gotham - 4678', ', dexon-eye drop 5 ml (4) ', 280, 200, '01-Jun-2023', 'pending', NULL, NULL),
+(27, 10, 'dipta', '01915699319', 'dipta@gmail.com', 'cash on delivery', 'flat no. 67, 7yt, narayanganj - 9325095', ', dexon-eye drop 5 ml (4) ', 280, 200, '01-Jun-2023', 'pending', NULL, NULL),
+(28, 10, 'dipta', '01954362900', 'dipta@gmail.com', 'online', 'flat no. 23, 56 tongi, Metropolis - 9052', ', dexon-eye drop 5 ml (4) ', 280, 200, '01-Jun-2023', 'pending', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -133,31 +127,32 @@ CREATE TABLE `products` (
   `id` int(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `price` int(100) NOT NULL,
+  `discount_price` int(200) NOT NULL,
   `image` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `price`, `image`) VALUES
-(8, 'ace syrup 60ml ', 35, 'ace-syrup-60ml-1-pc-35.jpg'),
-(9, 'ace tablet 500mg', 12, 'ace-tablet-500mg-10-tablets-12tk.jpg'),
-(10, 'ace-xr tablet 665mg', 20, 'ace-xr-tablet-665mg-10-tablets - 20.jpg'),
-(11, 'adovas syrup 100ml', 70, 'adovas-syrup-100ml-1-pc - 70 tk.jpg'),
-(12, 'alatrol tablet 10mg', 30, 'alatrol-tablet-10mg-10-tablets-30.1tk.jpg'),
-(13, 'dexon-eye drop 5 ml', 70, 'dexon-eye-drop-5-ml-1-pc - 70 tk.jpg'),
-(14, 'flutide inhaler 250mcg 10mcgpuff', 895, 'flutide-inhaler-250mcg10mcgpuff-1-pc-895tk.jpg'),
-(15, 'gastrocon-da-suspension 200ml', 287, 'gastrocon-da-suspension-200ml-1-pc-287.jpg'),
-(16, 'gastrocon-r suspension 200ml', 285, 'gastrocon-r-suspension-200ml-1-pc-250tk.jpg'),
-(17, 'iventi-d-eye drop 100ml', 180, 'iventi-d-eye-drop-0501-1-pc - 200 tk.jpg'),
-(18, 'napa-extend tablet 665mg', 30, 'napa-extend-tablet-665mg-12-tablets-24tk.jpg'),
-(19, 'nexcap-capsule 40mg', 90, 'nexcap-capsule-delayed-40mg-10-capsules-90tk.jpg'),
-(20, 'nexcital-tablet 10mg', 120, 'nexcital-tablet-10mg-10-tablets-120tk.jpg'),
-(21, 'protide-inhaler 250mcg', 790, 'protide-inhaler-25mcg250mcg-1-pc-795.jpg'),
-(23, 'radigel-120ml', 415, 'radigel-35gm54gm-1-pc-415tk.jpg'),
-(24, 'reli-balm cream 80mg', 200, 'reli-balm-cream-80mg45mg180mg10mg-1-pc - 200 tk.jpg'),
-(25, 'voltalin-sr 100 mg', 180, 'voltalin-sr-100-mg-10-tablets 180tk.jpg');
+INSERT INTO `products` (`id`, `name`, `price`, `discount_price`, `image`) VALUES
+(8, 'ace syrup 60ml ', 35, 25, 'ace-syrup-60ml-1-pc-35.jpg'),
+(9, 'ace tablet 500mg', 12, 10, 'ace-tablet-500mg-10-tablets-12tk.jpg'),
+(10, 'ace-xr tablet 665mg', 20, 15, 'ace-xr-tablet-665mg-10-tablets - 20.jpg'),
+(11, 'adovas syrup 100ml', 70, 50, 'adovas-syrup-100ml-1-pc - 70 tk.jpg'),
+(12, 'alatrol tablet 10mg', 30, 25, 'alatrol-tablet-10mg-10-tablets-30.1tk.jpg'),
+(13, 'dexon-eye drop 5 ml', 70, 50, 'dexon-eye-drop-5-ml-1-pc - 70 tk.jpg'),
+(14, 'flutide inhaler 250mcg 10mcgpuff', 895, 700, 'flutide-inhaler-250mcg10mcgpuff-1-pc-895tk.jpg'),
+(15, 'gastrocon-da-suspension 200ml', 28, 20, 'gastrocon-da-suspension-200ml-1-pc-287.jpg'),
+(16, 'gastrocon-r suspension 200ml', 285, 250, 'gastrocon-r-suspension-200ml-1-pc-250tk.jpg'),
+(17, 'iventi-d-eye drop 100ml', 180, 150, 'iventi-d-eye-drop-0501-1-pc - 200 tk.jpg'),
+(18, 'napa-extend tablet 665mg', 30, 25, 'napa-extend-tablet-665mg-12-tablets-24tk.jpg'),
+(19, 'nexcap-capsule 40mg', 90, 70, 'nexcap-capsule-delayed-40mg-10-capsules-90tk.jpg'),
+(20, 'nexcital-tablet 10mg', 120, 100, 'nexcital-tablet-10mg-10-tablets-120tk.jpg'),
+(21, 'protide-inhaler 250mcg', 790, 720, 'protide-inhaler-25mcg250mcg-1-pc-795.jpg'),
+(23, 'radigel-120ml', 415, 390, 'radigel-35gm54gm-1-pc-415tk.jpg'),
+(24, 'reli-balm cream 80mg', 200, 170, 'reli-balm-cream-80mg45mg180mg10mg-1-pc - 200 tk.jpg'),
+(25, 'voltalin-sr 100 mg', 180, 150, 'voltalin-sr-100-mg-10-tablets 180tk.jpg');
 
 -- --------------------------------------------------------
 
@@ -171,7 +166,7 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `user_type` varchar(20) NOT NULL DEFAULT 'user'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
@@ -233,7 +228,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `complaints`
@@ -251,7 +246,7 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `products`
