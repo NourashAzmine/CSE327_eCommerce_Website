@@ -61,6 +61,7 @@ if(isset($_GET['delete_all'])){
    <div class="box-container">
       <?php
          $grand_total = 0;
+         $discount_grand_total=0;
          $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
          if(mysqli_num_rows($select_cart) > 0){
             while($fetch_cart = mysqli_fetch_assoc($select_cart)){   
@@ -76,9 +77,11 @@ if(isset($_GET['delete_all'])){
             <input type="submit" name="update_cart" value="update" class="option-btn">
          </form>
          <div class="sub-total"> sub total : <span>$<?php echo $sub_total = ($fetch_cart['quantity'] * $fetch_cart['price']); ?>/-</span> </div>
+         <div class="sub-total"> Discount sub total : <span>$<?php echo $discount_sub_total = ($fetch_cart['quantity'] * $fetch_cart['discount_price']); ?>/-</span> </div>
       </div>
       <?php
       $grand_total += $sub_total;
+      $discount_grand_total += $discount_sub_total;
          }
       }else{
          echo '<p class="empty">your cart is empty</p>';
@@ -92,6 +95,7 @@ if(isset($_GET['delete_all'])){
 
    <div class="cart-total">
       <p>grand total : <span>$<?php echo $grand_total; ?>/-</span></p>
+      <p>Discount grand total : <span>$<?php echo $discount_grand_total; ?>/-</span></p>
       <div class="flex">
          <a href="shop.php" class="option-btn">continue shopping</a>
          <a href="checkout.php" class="btn <?php echo ($grand_total > 1)?'':'disabled'; ?>">proceed to checkout</a>
