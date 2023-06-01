@@ -86,6 +86,9 @@ if (isset($_GET['delete'])) {
             <p> Address : <span><?php echo $fetch_orders['address']; ?></span> </p>
             <p> Total products : <span><?php echo $fetch_orders['total_products']; ?></span> </p>
             <p> Total price : <span>৳<?php echo $fetch_orders['total_price']; ?>/-</span> </p>
+            <p> Discount : <span>৳<?php echo $fetch_orders['total_price'] - $fetch_orders['discount_total_price'];?>/-</span> </p>
+            <p> Subtotal : <span>৳<?php echo $fetch_orders['discount_total_price'];?>/-</span> </p>
+
             <p> Payment method : <span><?php echo $fetch_orders['method']; ?></span> </p>
             <form action="" method="post">
                <input type="hidden" name="order_id" value="<?php echo $fetch_orders['id']; ?>">

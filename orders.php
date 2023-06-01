@@ -51,7 +51,10 @@ if (!isset($user_id)) {
          <p> Address : <span><?php echo $fetch_orders['address']; ?></span> </p>
          <p> Payment method : <span><?php echo $fetch_orders['method']; ?></span> </p>
          <p> Your orders : <span><?php echo $fetch_orders['total_products']; ?></span> </p>
-         <p> Total price : <span>৳<?php echo $fetch_orders['total_price']; ?>/-</span> </p>
+         <p> Total : <span>৳<?php echo $fetch_orders['total_price']; ?>/-</span> </p>
+         <p> Discount : <span>৳<?php echo $fetch_orders['total_price'] - $fetch_orders['discount_total_price'];?>/-</span> </p>
+         <p> Subtotal : <span>৳<?php echo $fetch_orders['discount_total_price'];?>/-</span> </p>
+
          <?php if (isset($fetch_orders['estimated_delivery_date']) && isset($fetch_orders['estimated_delivery_time'])) { ?>
             <p> Estimated Delivery Date: <span><?php echo date('d/m/Y', strtotime($fetch_orders['estimated_delivery_date'])); ?></span> </p>
             <p> Estimated Delivery Time: <span><?php echo date('h:i A', strtotime($fetch_orders['estimated_delivery_time'])); ?></span> </p>
@@ -60,10 +63,18 @@ if (!isset($user_id)) {
             <p> Estimated Delivery Time: <span>Processing</span> </p>
          <?php } ?>
          <p> Delivery status : <span style="color:<?php if($fetch_orders['delivery_status'] == 'pending'){ echo 'red'; }else{ echo 'green'; } ?>;"><?php echo $fetch_orders['delivery_status']; ?></span> </p>
-         <div class="file-complaint-container">
-            <a href="complaint.php?order_id=<?php echo $fetch_orders['id']; ?>&name=<?php echo $fetch_orders['name']; ?>&email=<?php echo $fetch_orders['email']; ?>&number=<?php echo $fetch_orders['number']; ?>" class="file-complaint">
-               <i class="fas fa-exclamation-circle"></i> File a Complaint
-            </a>
+         <div class="button-container">
+            <div class="file-complaint-container">
+               <a href="complaint.php?order_id=<?php echo $fetch_orders['id']; ?>&name=<?php echo $fetch_orders['name']; ?>&email=<?php echo $fetch_orders['email']; ?>&number=<?php echo $fetch_orders['number']; ?>" class="file-complaint">
+                  <i class="fas fa-exclamation-circle"></i> File a Complaint
+               </a>
+               <?php if ($fetch_orders['delivery_status'] == 'delivered') { ?>
+                  <a href="download_receipt.php?order_id=<?php echo $fetch_orders['id']; ?>" class="download-receipt">
+                     <i class="fas fa-download"></i> Download Receipt
+                  </a>
+            <?php } ?>
+            </div>
+            
          </div>
       </div>
       <?php
