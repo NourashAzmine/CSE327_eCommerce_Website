@@ -28,6 +28,7 @@ if(isset($_GET['delete_all'])){
    header('location:cart.php');
 }
 $discount_percentage = 0;
+$discounted_total = 0;
 
 // Apply coupon code
 if(isset($_POST['apply_coupon'])){
