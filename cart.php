@@ -27,6 +27,26 @@ if(isset($_GET['delete_all'])){
    mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
    header('location:cart.php');
 }
+$discount_percentage = 0;
+
+// Apply coupon code
+if(isset($_POST['apply_coupon'])){
+   $coupon_code = $_POST['coupon_code'];
+
+   $coupon_query = mysqli_query($conn, "SELECT * FROM `coupons` WHERE code = '$coupon_code'") or die('Query failed');
+
+   if(mysqli_num_rows($coupon_query) > 0){
+      $coupon = mysqli_fetch_assoc($coupon_query);
+      $discount_percentage = $coupon['discount'];
+
+      // Calculate discount based on percentage
+      
+
+      $message[] = "Coupon applied successfully! ";
+   } else {
+      $message[] = "Invalid coupon code!";
+   }
+}
 
 ?>
 
@@ -61,7 +81,7 @@ if(isset($_GET['delete_all'])){
    <div class="box-container">
       <?php
          $grand_total = 0;
-         $discount_grand_total=0;
+         $discount_grand_total = 0;
          $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
          if(mysqli_num_rows($select_cart) > 0){
             while($fetch_cart = mysqli_fetch_assoc($select_cart)){   
@@ -82,6 +102,8 @@ if(isset($_GET['delete_all'])){
       <?php
       $grand_total += $sub_total;
       $discount_grand_total += $discount_sub_total;
+      $discount_amount = $discount_grand_total * ($discount_percentage / 100);
+      $discounted_total = $discount_grand_total - $discount_amount;
          }
       }else{
          echo '<p class="empty">your cart is empty</p>';
@@ -95,20 +117,25 @@ if(isset($_GET['delete_all'])){
 
    <div class="cart-total">
       <p>grand total : <span>$<?php echo $grand_total; ?>/-</span></p>
-      <p>Discount grand total : <span>$<?php echo $discount_grand_total; ?>/-</span></p>
+      <p>Discount grand total : <span>$<?php echo $discounted_total; ?>/-</span></p>
+      <form action="" method="post">
+            <input type="text" min="1" name="coupon_code" value="<?php  ?>">
+            <input type="submit" name="apply_coupon" value="apply" class="option-btn">
+      </form>
+      <?php
+         if(isset($message)){
+            foreach($message as $msg){
+               echo "<p>$msg</p>";
+            }
+         }
+      ?>
       <div class="flex">
          <a href="shop.php" class="option-btn">continue shopping</a>
-         <a href="checkout.php" class="btn <?php echo ($grand_total > 1)?'':'disabled'; ?>">proceed to checkout</a>
+         <a href="checkout.php?total=<?php echo $discounted_total; ?>" class="btn <?php echo ($grand_total > 1) ? '' : 'disabled'; ?>">proceed to checkout</a>
       </div>
    </div>
 
 </section>
-
-
-
-
-
-
 
 
 <?php include 'footer.php'; ?>

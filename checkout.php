@@ -10,6 +10,8 @@ if(!isset($user_id)){
    header('location:login.php');
 }
 
+$final_total = isset($_GET['total']) ? $_GET['total'] : 0;
+
 if(isset($_POST['order_btn'])){
 
    $name = mysqli_real_escape_string($conn, $_POST['name']);
@@ -51,7 +53,7 @@ if(isset($_POST['order_btn'])){
          mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
          
          if($method == 'online') {
-            header('location: payment.php?total='.$discount_cart_total);
+            header('location: payment.php?total='.$final_total);
             exit();
          }
       }
@@ -108,7 +110,7 @@ if(isset($_POST['order_btn'])){
    }
    ?>
    <div class="grand-total"> Grand Total: <span>$<?php echo $grand_total; ?>/-</span> </div>
-   <div class="grand-total"> Discounted Grand Total: <span>$<?php echo $discount_grand_total; ?>/-</span> </div>
+   <div class="grand-total"> Discounted Grand Total: <span>$<?php echo $final_total; ?>/-</span> </div>
 
 </section>
 
