@@ -22,9 +22,11 @@ if(isset($message)){
          <a href="admin_products.php">Products</a>
          <a href="admin_orders.php">Orders</a>
          <a href="admin_users.php">Users</a>
+         <a href="admin_request.php">Request</a>
          <a href="admin_contacts.php">Messages</a>
          <a href="admin_complaints.php">Complaints</a>
          <a href="admin_coupon.php">Coupon</a>
+         
       </nav>
 
       <div class="icons">
