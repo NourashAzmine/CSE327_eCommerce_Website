@@ -189,7 +189,7 @@ if(isset($_SESSION['user_id'])){
             <a href="#" class="fab fa-instagram"></a>
             <a href="#" class="fab fa-linkedin"></a>
          </div>
-         <h3>SA Shourav</h3>
+         <h3>Sabbir Ahmed</h3>
       </div>
 
    </div>
