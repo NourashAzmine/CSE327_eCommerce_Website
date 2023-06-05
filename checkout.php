@@ -48,8 +48,10 @@ if(isset($_POST['order_btn'])){
       if(mysqli_num_rows($order_query) > 0){
          $message[] = 'order already placed!'; 
       }else{
-         mysqli_query($conn, "INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price,discount_total_price, placed_on) VALUES('$user_id', '$name', '$number', '$email', '$method', '$address', '$total_products', '$cart_total','$discount_cart_total', '$placed_on')") or die('query failed');
+         mysqli_query($conn, "INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price,discount_total_price, placed_on) VALUES('$user_id', '$name', '$number', '$email', '$method', '$address', '$total_products', '$cart_total','$final_total', '$placed_on')") or die('query failed');
          $message[] = 'order placed successfully!';
+         $final_total = 0;
+
          mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
          
          if($method == 'online') {
@@ -101,16 +103,16 @@ if(isset($_POST['order_btn'])){
             $grand_total += $total_price;
             $discount_grand_total += $discount_total_price;
    ?>
-   <p> <?php echo $fetch_cart['name']; ?> <span>(<?php echo '$'.$fetch_cart['price'].'/-'.' x '. $fetch_cart['quantity']; ?>)</span> </p>
-   <p> <?php echo $fetch_cart['name']; ?> <span>(<?php echo '$'.$fetch_cart['discount_price'].'/-'.' x '. $fetch_cart['quantity']; ?>)</span> </p>
+   <p> <?php echo $fetch_cart['name']; ?> <span>(<?php echo '৳'.$fetch_cart['price'].'/-'.' x '. $fetch_cart['quantity']; ?>)</span> </p>
+   <p> <?php echo $fetch_cart['name']; ?> <span>(<?php echo '৳'.$fetch_cart['discount_price'].'/-'.' x '. $fetch_cart['quantity']; ?>)</span> </p>
    <?php
       }
    }else{
       echo '<p class="empty">Your cart is empty</p>';
    }
    ?>
-   <div class="grand-total"> Grand Total: <span>$<?php echo $grand_total; ?>/-</span> </div>
-   <div class="grand-total"> Discounted Grand Total: <span>$<?php echo $final_total; ?>/-</span> </div>
+   <div class="grand-total"> Grand Total: <span>৳<?php echo $grand_total; ?>/-</span> </div>
+   <div class="grand-total"> Discounted Grand Total: <span>৳<?php echo $final_total; ?>/-</span> </div>
 
 </section>
 
