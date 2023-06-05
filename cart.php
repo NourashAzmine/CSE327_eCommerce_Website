@@ -120,7 +120,7 @@ if(isset($_POST['apply_coupon'])){
       <p>grand total : <span>$<?php echo $grand_total; ?>/-</span></p>
       <p>Discount grand total : <span>$<?php echo $discounted_total; ?>/-</span></p>
       <form action="" method="post">
-            <input type="text" min="1" name="coupon_code" value="<?php  ?>">
+      <input type="text" min="1" name="coupon_code" value="<?php // code to display the current value ?>" style="border: 1px solid #ccc; padding: 5px;">
             <input type="submit" name="apply_coupon" value="apply" class="option-btn">
       </form>
       <?php
