@@ -86,6 +86,18 @@ if (isset($_POST['update_product'])) {
 
 }
 
+if (isset($_GET['out_of_stock'])) {
+   $product_id = $_GET['out_of_stock'];
+   mysqli_query($conn, "UPDATE `products` SET available = 0 WHERE id = '$product_id'") or die('query failed');
+   header('location:admin_products.php');
+}
+
+if (isset($_GET['stock_in'])) {
+   $product_id = $_GET['stock_in'];
+   mysqli_query($conn, "UPDATE `products` SET available = 1 WHERE id = '$product_id'") or die('query failed');
+   header('location:admin_products.php');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -146,6 +158,13 @@ if (isset($_POST['update_product'])) {
                   <div class="price">discount price ৳<?php echo $fetch_products['discount_price']; ?>/-</div>
                   <a href="admin_products.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn">update</a>
                   <a href="admin_products.php?delete=<?php echo $fetch_products['id']; ?>" class="delete-btn" onclick="return confirm('delete this product?');">delete</a>
+                  <div class="out-of-stock">
+                  <?php if ($fetch_products['available'] == 1) { ?>
+                     <a href="admin_products.php?out_of_stock=<?php echo $fetch_products['id']; ?>" class="delete-btn">Make Unavailable</a>
+                  <?php } else { ?>
+                     <a href="admin_products.php?stock_in=<?php echo $fetch_products['id']; ?>" class="option-btn">Make Availabe</a>
+                  <?php } ?>
+                  </div>
                </div>
          <?php
             }

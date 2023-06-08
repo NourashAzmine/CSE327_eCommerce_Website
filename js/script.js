@@ -50,3 +50,18 @@ function togglePasswordVisibility(fieldId) {
       toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
    }
 }
+
+// out of stock
+var buttons = document.querySelectorAll(".delete-btn.out-of-stock");
+
+buttons.forEach(function(button) {
+  button.addEventListener("mouseover", function() {
+    button.innerText = "Request Product";
+    button.classList.add("request-product");
+  });
+
+  button.addEventListener("mouseout", function() {
+    button.innerText = "Out of Stock";
+    button.classList.remove("request-product");
+  });
+});
