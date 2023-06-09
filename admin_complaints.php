@@ -1,28 +1,36 @@
 <?php
-
 include 'config.php';
 
 session_start();
 
 $admin_id = $_SESSION['admin_id'];
 
-if(!isset($admin_id)){
+if (!isset($admin_id)) {
    header('location:login.php');
 }
 
-if(isset($_GET['delete'])){
+if (isset($_GET['delete'])) {
    $delete_id = $_GET['delete'];
    $complaint = mysqli_query($conn, "SELECT * FROM `complaints` WHERE complaint_id = '$delete_id'") or die('Query failed');
    $complaintData = mysqli_fetch_assoc($complaint);
+   
+   // Delete the uploaded photo
    $filePath = $complaintData['photo'];
    if(!empty($filePath)){
       unlink($filePath);
    }
+   
+   // Delete the webcam captured file
+   $webcamPath = 'webcam_img/' . basename($complaintData['webcam_photo']);
+   if (!empty($complaintData['webcam_photo']) && file_exists($webcamPath)) {
+      unlink($webcamPath);
+   }
+   
    mysqli_query($conn, "DELETE FROM `complaints` WHERE complaint_id = '$delete_id'") or die('Query failed');
    header('location:admin_complaints.php');
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,12 +71,19 @@ if(isset($_GET['delete'])){
       <p>Order ID: <span><?php echo $fetch_complaint['order_id']; ?></span></p>
       <p>Description: <span><?php echo $fetch_complaint['message']; ?></span></p>
       <?php if(!empty($fetch_complaint['photo'])): ?>
-         <img src="<?php echo $fetch_complaint['photo']; ?>" alt="Complaint Photo" class="complaint-photo">
+         <?php
+         $photoPath = 'uploaded_img/' . basename($fetch_complaint['photo']);
+         if (file_exists($photoPath)) {
+            echo '<img src="' . $photoPath . '" alt="Complaint Photo" class="complaint-photo">';
+         } else {
+            echo '<p class="empty">Photo not found!</p>';
+         }
+         ?>
       <?php endif; ?>
       <div class="center-btn">
          <a href="admin_complaints.php?delete=<?php echo $fetch_complaint['complaint_id']; ?>" onclick="return confirm('Delete this complaint?');" class="delete-btn">Delete Complaint</a>
       </div>
-      </div>
+   </div>
    <?php
       }
    } else {
