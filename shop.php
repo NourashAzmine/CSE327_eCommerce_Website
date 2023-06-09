@@ -105,16 +105,14 @@ if (isset($_POST['request_product'])) {
                      <?php } ?>
                   </div>
                   <?php if ($is_product_available == 1) {
-                     if ($is_requested) { ?>
-                        <button type="submit" name="request_product" class="delete-btn requested">Requested</button>
-                     <?php } else { ?>
+                     ?>
                         <input type="number" min="1" name="product_quantity" value="1" class="qty">
                         <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
                         <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
                         <input type="hidden" name="discount_product_price" value="<?php echo $fetch_products['discount_price']; ?>">
                         <input type="hidden" name="product_image" value="<?php echo $fetch_products['image']; ?>">
                         <input type="submit" value="Add to Cart" name="add_to_cart" class="btn">
-                     <?php }
+                     <?php 
                   } else { ?>
                      <br><br><br><br><br><br>
                      <button type="submit" name="request_product" class="delete-btn out-of-stock">Out of Stock</button>
