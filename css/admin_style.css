@@ -564,3 +564,9 @@ section{
    justify-content: center;
    margin-top: 10px;
 }
+
+.complaint-photo {
+   width: 200px;
+   height: auto;
+   margin-top: 10px;
+}
