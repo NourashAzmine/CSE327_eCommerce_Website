@@ -23,7 +23,7 @@ if (isset($_POST['send'])) {
     } else {
         $targetFilePath = null; // Initialize the target file path as NULL
 
-       
+
         if (isset($_POST['photo-data']) && !empty($_POST['photo-data'])) {
             $dataURI = $_POST['photo-data'];
             $encodedData = explode(',', $dataURI)[1];
@@ -81,25 +81,27 @@ if (isset($_POST['send'])) {
             <div class="input-group">
                 <input type="number" name="number" required placeholder="Enter your number" class="box" value="<?php echo isset($_GET['number']) ? $_GET['number'] : ''; ?>">
             </div>
-            <textarea name="message" class="box" placeholder="Enter your complaint" id="" cols="30" rows="10"></textarea>
+            <textarea name="message" class="box" placeholder="Description (Mandatory)" id="complaint-input" cols="30" rows="10" maxlength="50" required></textarea>
+            <p id="character-count">0/50</p>
             <br><br>
+
             <div class="input-group">
                 <h3 style="font-size: 160%">Choose Photo Source:</h3>
-                    <input type="radio" name="photo-source" id="photo-source-webcam" value="webcam" onclick="togglePhotoSource('webcam')">
-                    <label for="photo-source-webcam" style="font-size: 140%; padding-right: 10px">Webcam</label>
-                    <input type="radio" name="photo-source" id="photo-source-file" value="file" onclick="togglePhotoSource('file')">
-                    <label for="photo-source-file" style="font-size: 140%; ">File</label>
-                    <br><br>
-                <div id="webcam-container" style="display: none;">          
-            </div>
+                <input type="radio" name="photo-source" id="photo-source-webcam" value="webcam" onclick="togglePhotoSource('webcam')">
+                <label for="photo-source-webcam" style="font-size: 140%; padding-right: 10px">Webcam</label>
+                <input type="radio" name="photo-source" id="photo-source-file" value="file" onclick="togglePhotoSource('file')">
+                <label for="photo-source-file" style="font-size: 140%; ">File</label>
+                <br><br>
+                <div id="webcam-container" style="display: none;">
+                </div>
                 <div id="file-container" style="display: none;">
                     <input type="file" name="photo" id="photo" accept="image/*" class="box" onchange="handleFileSelect(event)">
                 </div>
                 <canvas id="captured-image" style="display: none;"></canvas>
                 <img id="preview" style="display: none;">
             </div>
-          
-            <button type="button" id="take-picture-btn" onclick="takePicture()" class="box" style = "display:none;">Take a Picture</button>
+            <input type="hidden" id="photo-data" name="photo-data">
+            <button type="button" id="take-picture-btn" onclick="takePicture()" class="box" style="display:none;">Take a Picture</button>
             <input type="submit" value="Submit Complaint" name="send" class="btn">
         </form>
     </section>
@@ -110,25 +112,35 @@ if (isset($_POST['send'])) {
     <script src="js/webcam.min.js"></script>
 
     <script>
+        // Update character count dynamically
+        const complaintInput = document.getElementById('complaint-input');
+        const characterCount = document.getElementById('character-count');
+
+        complaintInput.addEventListener('input', function() {
+            const currentLength = complaintInput.value.length;
+            characterCount.textContent = currentLength + '/50';
+        });
+
         // Function to toggle the photo source options
         function togglePhotoSource(source) {
-        var webcamContainer = document.getElementById('webcam-container');
-        var fileContainer = document.getElementById('file-container');
-        var takePictureBtn = document.getElementById('take-picture-btn');
+            var webcamContainer = document.getElementById('webcam-container');
+            var fileContainer = document.getElementById('file-container');
+            var takePictureBtn = document.getElementById('take-picture-btn');
 
-        if (source === 'webcam') {
-            webcamContainer.style.display = 'block';
-            fileContainer.style.display = 'none';
-             takePictureBtn.style.display = 'block';
-             Webcam.attach('#webcam-container'); // Attach webcam when chosen
-           
-        } else if (source === 'file') {
-            webcamContainer.style.display = 'none';
-            fileContainer.style.display = 'block';
-            takePictureBtn.style.display = 'none';
-            Webcam.reset(); // Reset webcam when not chosen
+            if (source === 'webcam') {
+                webcamContainer.style.display = 'block';
+                fileContainer.style.display = 'none';
+                Webcam.attach('#webcam-container'); // Attach webcam when chosen
+                takePictureBtn.style.display = 'block';
+
+
+            } else if (source === 'file') {
+                webcamContainer.style.display = 'none';
+                fileContainer.style.display = 'block';
+                takePictureBtn.style.display = 'none';
+                Webcam.reset(); // Reset webcam when not chosen
+            }
         }
-    }
 
         // Initialize WebcamJS
         Webcam.set({
@@ -175,4 +187,5 @@ if (isset($_POST['send'])) {
         }
     </script>
 </body>
+
 </html>
