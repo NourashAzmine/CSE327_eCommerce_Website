@@ -1,19 +1,6 @@
 <?php
 include 'config.php';
 
-// if (isset($_FILES['photo'])) {
-//     $targetDir = "uploaded_img/";
-//     $fileName = basename($_FILES["photo"]["name"]);
-//     $targetFilePath = $targetDir . $fileName;
-//     $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-//     if (move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFilePath)) {
-//         $message[] = 'Photo uploaded successfully!';
-//     } else {
-//         $message[] = 'Failed to upload photo!';
-//     }
-// }
-
 session_start();
 
 if (isset($_SESSION['user_id'])) {
@@ -36,20 +23,7 @@ if (isset($_POST['send'])) {
     } else {
         $targetFilePath = null; // Initialize the target file path as NULL
 
-        // Handle uploaded file
-        // if (isset($_FILES["photo"]) && !empty($_FILES["photo"]["name"])) {
-        //     $targetDir = "uploaded_img/";
-        //     $fileName = basename($_FILES["photo"]["name"]);
-        //     $targetFilePath = $targetDir . $fileName;
-        //     $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-        //     if (move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFilePath)) {
-        //         $message[] = 'Photo uploaded successfully!';
-        //     } else {
-        //         $message[] = 'Failed to upload photo!';
-        //     }
-        // }
-
+       
         if (isset($_POST['photo-data']) && !empty($_POST['photo-data'])) {
             $dataURI = $_POST['photo-data'];
             $encodedData = explode(',', $dataURI)[1];
@@ -124,8 +98,8 @@ if (isset($_POST['send'])) {
                 <canvas id="captured-image" style="display: none;"></canvas>
                 <img id="preview" style="display: none;">
             </div>
-            <input type="hidden" id="photo-data" name="photo-data">
-            <button type="button" id="take-picture-btn" onclick="takePicture()" class="box">Take a Picture</button>
+          
+            <button type="button" id="take-picture-btn" onclick="takePicture()" class="box" style = "display:none;">Take a Picture</button>
             <input type="submit" value="Submit Complaint" name="send" class="btn">
         </form>
     </section>
@@ -145,8 +119,9 @@ if (isset($_POST['send'])) {
         if (source === 'webcam') {
             webcamContainer.style.display = 'block';
             fileContainer.style.display = 'none';
-            Webcam.attach('#webcam-container'); // Attach webcam when chosen
-            takePictureBtn.style.display = 'block';
+             takePictureBtn.style.display = 'block';
+             Webcam.attach('#webcam-container'); // Attach webcam when chosen
+           
         } else if (source === 'file') {
             webcamContainer.style.display = 'none';
             fileContainer.style.display = 'block';
